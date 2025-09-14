@@ -4,9 +4,13 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3500;
 
 app.use(bodyParser.json());
+app.get('/', (req, res) => {
+    res.send('API is running.  See /api-docs for swagger UI.');
+
+});
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');

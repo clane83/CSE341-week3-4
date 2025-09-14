@@ -4,13 +4,14 @@ const { ObjectId } = require('mongodb');
 // import java.time.format.DateTimeFormatter;
 
 
+
 const allDestinations = async (req, res) => {
     try {
-        const result = await mongodb.getDB().collection('destination').find();
+        const result = await mongodb.getDb().collection('destination').find();
         result.toArray().then((destination) => {
             res.setHeader('Content-Type', 'application/json');
-            res.status(200).json(destinations);
-        })
+            res.status(200).json(destination);
+        });
     } catch (err) {
         res.status(500).json({ message: err.message });
     };
@@ -18,20 +19,19 @@ const allDestinations = async (req, res) => {
 
 const createDestination = async (req, res) => {
     try {
-        const desitnationId = new ObjectId(req.params.id);
-        let today = LocalDate.now(); //get local current date
-        let formatDate = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); //format date to match database
+        // const desitnationId = new ObjectId(req.params.id);
+        const todayYMD = new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
 
         const destination = {
             country: req.body.country,
             cities_to_visit: req.body.cities_to_visit,
             languages: req.body.languages,
             createdby: req.body.createdby,
-            createdon: formatDate, //use formatted date to insert into database
+            createdon: todayYMD, //use formatted date to insert into database
             visited: req.body.visited
         }
 
-        const response = await mongodb.getDB().collection('destination').insertOne(destination);
+        const response = await mongodb.getDb().collection('destination').insertOne(destination);
         if (response.acknowledged) {
             res.status(201).json(response);
         } else {
@@ -45,19 +45,18 @@ const createDestination = async (req, res) => {
 const updateDestination = async (req, res) => {
     try {
         const desitnationId = new ObjectId(req.params.id);
-        let today = LocalDate.now(); //get local current date
-        let formatDate = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); //format date to match database
+        const todayYMD = new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
 
         const destination = {
             country: req.body.country,
             cities_to_visit: req.body.cities_to_visit,
             languages: req.body.languages,
             createdby: req.body.createdby,
-            createdon: formatDate, //use formatted date to insert into database
+            createdon: todayYMD, //use formatted date to insert into database
             visited: req.body.visited
         }
 
-        const response = await mongodb.getDB().collection('destination').replaceOne({ _id: destinationId }, destination);
+        const response = await mongodb.getDb().collection('destination').replaceOne({ _id: destinationId }, destination);
         if (response.modificatedCount > 0) {
             res.status(201).json(response);
         } else {
@@ -71,7 +70,7 @@ const updateDestination = async (req, res) => {
 const deleteDestination = async (req, res) => {
     try {
         const desitnationId = new ObjectId(req.params.id);
-        const response = await mongodb.getDB().collection('destination').deleteOne({ _id: destinationId });
+        const response = await mongodb.getDb().collection('destination').deleteOne({ _id: destinationId });
         if (response.deletedCount > 0) {
             res.status(201).json(response);
         } else {
