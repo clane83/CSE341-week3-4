@@ -17,19 +17,20 @@ const allDestinations = async (req, res) => {
 };
 
 const createDestination = async (req, res) => {
-    const desitnationId = new ObjectId(req.params.id);
-    let today = LocalDate.now(); //get local current date
-    let formatDate = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); //format date to match database
-
-    const destination = {
-        country: req.body.country,
-        cities_to_visit: req.body.cities_to_visit,
-        languages: req.body.languages,
-        createdby: req.body.createdby,
-        createdon: formatDate, //use formatted date to insert into database
-        visited: req.body.visited
-    }
     try {
+        const desitnationId = new ObjectId(req.params.id);
+        let today = LocalDate.now(); //get local current date
+        let formatDate = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); //format date to match database
+
+        const destination = {
+            country: req.body.country,
+            cities_to_visit: req.body.cities_to_visit,
+            languages: req.body.languages,
+            createdby: req.body.createdby,
+            createdon: formatDate, //use formatted date to insert into database
+            visited: req.body.visited
+        }
+
         const response = await mongodb.getDB().collection('destination').insertOne(destination);
         if (response.acknowledged) {
             res.status(201).json(response);
@@ -42,19 +43,20 @@ const createDestination = async (req, res) => {
 };
 
 const updateDestination = async (req, res) => {
-    const desitnationId = new ObjectId(req.params.id);
-    let today = LocalDate.now(); //get local current date
-    let formatDate = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); //format date to match database
-
-    const destination = {
-        country: req.body.country,
-        cities_to_visit: req.body.cities_to_visit,
-        languages: req.body.languages,
-        createdby: req.body.createdby,
-        createdon: formatDate, //use formatted date to insert into database
-        visited: req.body.visited
-    }
     try {
+        const desitnationId = new ObjectId(req.params.id);
+        let today = LocalDate.now(); //get local current date
+        let formatDate = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); //format date to match database
+
+        const destination = {
+            country: req.body.country,
+            cities_to_visit: req.body.cities_to_visit,
+            languages: req.body.languages,
+            createdby: req.body.createdby,
+            createdon: formatDate, //use formatted date to insert into database
+            visited: req.body.visited
+        }
+
         const response = await mongodb.getDB().collection('destination').replaceOne({ _id: destinationId }, destination);
         if (response.modificatedCount > 0) {
             res.status(201).json(response);
@@ -67,10 +69,8 @@ const updateDestination = async (req, res) => {
 };
 
 const deleteDestination = async (req, res) => {
-    const desitnationId = new ObjectId(req.params.id);
-
-
     try {
+        const desitnationId = new ObjectId(req.params.id);
         const response = await mongodb.getDB().collection('destination').deleteOne({ _id: destinationId });
         if (response.deletedCount > 0) {
             res.status(201).json(response);
