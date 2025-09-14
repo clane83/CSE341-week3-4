@@ -83,7 +83,7 @@ const deleteDestination = async (req, res) => {
 };
 
 
-mondule.exports = {
+module.exports = {
     allDestinations,
     createDestination,
     updateDestination,

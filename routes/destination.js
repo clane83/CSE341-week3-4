@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router();
 
-const destinationController = require('../controllers/destination')
+const destinationController = require('../controller/destination')
 
 router.get('/', destinationController.allDestinations);
 
