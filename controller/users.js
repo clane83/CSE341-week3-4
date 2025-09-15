@@ -11,6 +11,8 @@ async function allUsers(_req, res) {
     }
 }
 
+
+
 async function createUser(req, res) {
     try {
         const user = { username: req.body.username, password: req.body.password };
@@ -22,16 +24,26 @@ async function createUser(req, res) {
 }
 
 async function updateUser(req, res) {
-    try {
-        const id = new ObjectId(req.params.id);
-        const payload = { username: req.body.username, password: req.body.password };
-        const r = await dbClient.getDb().collection('users').replaceOne({ _id: id }, payload);
-        if (r.modifiedCount === 0) return res.status(404).json({ message: 'Not found or no changes' });
-        res.status(200).json({ _id: id, ...payload });
-    } catch (err) {
-        res.status(400).json({ message: 'Invalid id' });
+    if (!ObjectId.isValid(req.params.id)) {
+        res.status(400).json('Must use a valid user id to update a user.');
+    }
+    const id = new ObjectId(req.params.id);
+    const user = {
+        username: req.body.username,
+        password: req.body.password
+    }
+    const result = await dbClient
+        .getDb()
+        .collection('users')
+        .replaceOne({ _id: id }, user);
+    if (result.modifiedCount > 0) {
+        res.status(204).end();
+    } else {
+        res.status(500).json(result.error || 'Some error occurred while updating the user.');
     }
 }
+
+
 
 async function deleteUser(req, res) {
     try {
