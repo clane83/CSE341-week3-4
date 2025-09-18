@@ -3,7 +3,7 @@ const validate = require('../helpers/validate');
 const saveUser = (req, res, next) => {
     const validationRule = {
         username: 'required|string',   // fixed key name
-        passwrod: 'required|string'
+        password: 'required|string'
     };
     validate(req.body, validationRule, {}, (err, status) => {
         if (!status) {

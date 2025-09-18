@@ -15,7 +15,10 @@ async function allUsers(_req, res) {
 
 async function createUser(req, res) {
     try {
-        const user = { username: req.body.username, password: req.body.password };
+        const user = {
+            username: req.body.username,
+            password: req.body.password
+        };
         const result = await dbClient.getDb().collection('users').insertOne(user);
         res.status(201).json({ _id: result.insertedId, ...user });
     } catch (err) {
