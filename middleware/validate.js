@@ -29,6 +29,12 @@ const saveUser = (req, res, next) => {
 const saveDestination = (req, res, next) => {
     //Only validate for POST/PUT
     if (req.method === 'POST' || req.method === 'PUT') {
+        if (req.body.cities_to_visit && !Array.isArray(req.body.cities_to_visit)) {
+            req.body.cities_to_visit = [req.body.cities_to_visit];
+        }
+        if (req.body.languages && !Array.isArray(req.body.languages)) {
+            req.body.languages = [req.body.languages];
+        }
         const validationRule = {
             country: 'required|string',   // fixed key name
             cities_to_visit: 'required|array',
