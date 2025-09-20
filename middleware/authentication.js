@@ -6,7 +6,7 @@ const isAuthenticated = (req, res, next) => {
     if (!authed) {
         const wantsJSON = (req.get('accept') || '').includes('application/json');
         if (wantsJSON) {
-            return res.status(401).json({ error: 'You do not have access.' });
+            return res.status(401).json('You do not have access.' );
         }
         // Browser flow: send to login
         return res.redirect('/login?error=auth_required');
